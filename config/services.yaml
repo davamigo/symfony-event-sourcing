@@ -35,16 +35,26 @@ services:
             $password: '%env(AMQP_PASSWORD)%'
             $vhost: '%env(AMQP_VHOST)%'
 
+    PhpAmqpLib\Connection\AMQPStreamConnection: '@amqp.connection'
+
     event_sourcing.command_bus:
         class: Davamigo\Infrastructure\Core\Command\InstantCommandBus
+        arguments:
+            $handlers: []
+
+    Davamigo\Domain\Core\Command\CommandBus: '@event_sourcing.command_bus'
 
     event_sourcing.event_bus:
         class: Davamigo\Infrastructure\Core\Event\AmqpEventBus
         arguments:
             $connection: '@amqp.connection'
 
+    Davamigo\Domain\Core\Event\EventBus: '@event_sourcing.event_bus'
+
     event_sourcing.event_consumer:
         class: Davamigo\Infrastructure\Core\Event\AmqpEventConsumer
         arguments:
             $connection: '@amqp.connection'
             $events: []
+
+    Davamigo\Domain\Core\Event\EventConsumer: '@event_sourcing.event_consumer'
