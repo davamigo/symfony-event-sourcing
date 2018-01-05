@@ -29,11 +29,12 @@ services:
     amqp.connection:
         class: PhpAmqpLib\Connection\AMQPStreamConnection
         arguments:
-            $host: '%env(AMQP_HOST)'
+            $host: '%env(AMQP_HOST)%'
             $port: '%env(AMQP_PORT)%'
             $user: '%env(AMQP_USER)%'
             $password: '%env(AMQP_PASSWORD)%'
             $vhost: '%env(AMQP_VHOST)%'
+        public: true
 
     PhpAmqpLib\Connection\AMQPStreamConnection: '@amqp.connection'
 
