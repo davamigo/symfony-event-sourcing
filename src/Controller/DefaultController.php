@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * Default controller class
  *
  * @package App\Controller
+ * @author davamigo@gmail.com
  * @Route("/")
  */
 class DefaultController extends Controller
