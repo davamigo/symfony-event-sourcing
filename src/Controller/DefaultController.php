@@ -21,31 +21,6 @@ class DefaultController extends Controller
      */
     public function homepage()
     {
-        $connection = $this->get('amqp.connection');
-
-        $channel = $connection->channel();
-
-        $channel->exchange_declare(
-            'app.events',
-            'fanout',
-            false,
-            true,
-            false
-        );
-
-        $channel->queue_declare(
-            'app.events.storage',
-            false,
-            true,
-            false,
-            false
-        );
-
-        $channel->queue_bind(
-            'app.events.storage',
-            'app.events'
-        );
-
         $author = new Author(null, 'J.R.R.', 'Tolkien');
 
         $createAuthorCommand = new CreateAuthor($author);

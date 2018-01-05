@@ -46,7 +46,7 @@ class CreateAuthorHandler implements CommandHandler
 
         /** @var Author $author */
         $author = $command->payload();
-        $event = new AuthorCreated($author, 'app.events');
+        $event = new AuthorCreated($author);
         $this->eventBus->publishEvent($event);
     }
 }
