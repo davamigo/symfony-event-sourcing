@@ -1,6 +1,6 @@
 #!/bin/bash
 
-service="docker_evsourcing_storage";
+service="docker_evsourcing_queue";
 
 enabled=$( docker ps --format "{{.Names}}" | grep -i "$service" )
 if [ "$enabled" == "" ]
@@ -18,5 +18,4 @@ while [[ $# -ge 1 ]]; do
     shift
 done
 
-docker exec -it $service mongo $args
-
+docker exec -it $service rabbitmqctl $args
