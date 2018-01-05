@@ -41,7 +41,9 @@ services:
     event_sourcing.command_bus:
         class: Davamigo\Infrastructure\Core\Command\InstantCommandBus
         arguments:
-            $handlers: []
+            $handlers:
+                App\BusinessLogic\Domain\Command\CreateAuthor: '@App\BusinessLogic\Application\CommandHandler\CreateAuthorHandler'
+        public: true
 
     Davamigo\Domain\Core\Command\CommandBus: '@event_sourcing.command_bus'
 
