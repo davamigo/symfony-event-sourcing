@@ -3,6 +3,8 @@
 namespace App\BusinessLogic\Application\CommandHandler;
 
 use App\BusinessLogic\Domain\Command\CreateAuthor;
+use App\BusinessLogic\Domain\Entity\Author;
+use App\BusinessLogic\Domain\Event\AuthorCreated;
 use Davamigo\Domain\Core\Command\Command;
 use Davamigo\Domain\Core\Command\CommandHandler;
 use Davamigo\Domain\Core\Command\CommandHandlerException;
@@ -42,7 +44,9 @@ class CreateAuthorHandler implements CommandHandler
             throw new CommandHandlerException('The command class should be: ' . CreateAuthor::class);
         }
 
-        // TODO
-        echo 'Hello world';
+        /** @var Author $author */
+        $author = $command->payload();
+        $event = new AuthorCreated($author, 'app.events');
+        $this->eventBus->publishEvent($event);
     }
 }
