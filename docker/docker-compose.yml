@@ -1,0 +1,82 @@
+version: '2'
+services:
+
+  # See: docker/Dockerfile
+  evsourcing_server:
+    build: .
+
+    restart: always
+
+    container_name: docker_evsourcing_server
+
+    environment:
+      APACHE_RUN_USER: david
+      APACHE_RUN_GROUP: david
+
+    ports:
+      - "8080:80"
+
+    volumes:
+      - "../.:/var/www/html"
+
+    networks:
+      - evsourcing_network
+
+    links:
+      - evsourcing_database
+      - evsourcing_atorage
+      - evsourcing_queue
+
+  # See: https://hub.docker.com/_/mysql
+  evsourcing_database:
+    image: mysql:5.7
+
+    restart: always
+
+    container_name: docker_evsourcing_database
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: evsourcing_db
+      MYSQL_USER: evsourcing_user
+      MYSQL_PASSWORD: evsourcing_pass
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - "../var/docker/mysql:/var/lib/mysql"
+
+    networks:
+      - evsourcing_network
+
+
+  # See: https://hub.docker.com/r/_/rabbitmq/
+  evsourcing_queue:
+    image: rabbitmq:3-management
+
+    container_name: docker_evsourcing_queue
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    networks:
+      - evsourcing_network
+
+
+  # See: https://hub.docker.com/_/mongo/
+  evsourcing_atorage:
+    image: mongo:3
+
+    container_name: docker_evsourcing_storage
+
+    volumes:
+      - "../var/docker/mongo:/data/db"
+
+    networks:
+      - evsourcing_network
+
+networks:
+  evsourcing_network:
+    driver: bridge
