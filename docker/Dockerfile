@@ -2,11 +2,25 @@
 FROM php:7.1-apache
 
 # Install O.S extensions
-RUN apt-get update && apt-get install zip unzip
+RUN apt-get update \
+ && apt-get -y install \
+        zip \
+        unzip \
+        libcurl4-openssl-dev \
+        pkg-config \
+        libssl-dev
 
 # Prepare environment
-RUN docker-php-ext-install pdo_mysql bcmath && \
-    docker-php-ext-enable pdo_mysql bcmath
+RUN docker-php-ext-install \
+        pdo_mysql \
+        bcmath
+
+RUN pecl install mongodb
+
+RUN docker-php-ext-enable \
+        pdo_mysql \
+        bcmath \
+        mongodb
 
 RUN useradd -m -u 1000 -U david
 

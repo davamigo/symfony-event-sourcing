@@ -26,6 +26,9 @@
     "doctrine/lexer": {
         "version": "v1.0.1"
     },
+    "mongodb/mongodb": {
+        "version": "1.2.0"
+    },
     "monolog/monolog": {
         "version": "1.23.0"
     },
