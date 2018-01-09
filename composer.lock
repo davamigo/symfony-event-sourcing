@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/davamigo/php-event-sourcing.git",
-                "reference": "098a4453ff3802303cb869e1a623aac24068d52a"
+                "reference": "834c0f6ace7447c65d7ef9a80c9f0615774bbbb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/098a4453ff3802303cb869e1a623aac24068d52a",
-                "reference": "098a4453ff3802303cb869e1a623aac24068d52a",
+                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/834c0f6ace7447c65d7ef9a80c9f0615774bbbb7",
+                "reference": "834c0f6ace7447c65d7ef9a80c9f0615774bbbb7",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "source": "https://github.com/davamigo/php-event-sourcing",
                 "issues": "https://github.com/davamigo/php-event-sourcing/issues"
             },
-            "time": "2018-01-09T16:04:45+00:00"
+            "time": "2018-01-09T17:05:31+00:00"
         },
         {
             "name": "doctrine/annotations",

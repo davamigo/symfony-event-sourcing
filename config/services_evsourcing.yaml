@@ -1,0 +1,92 @@
+# config/services_evsourcing.yaml
+services:
+
+    # Default values for the services of this file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # Connection to AMQP queue system (RabbitMQ)
+    amqp.connection:
+        class: PhpAmqpLib\Connection\AMQPStreamConnection
+        arguments:
+            $host:     '%env(AMQP_HOST)%'
+            $port:     '%env(AMQP_PORT)%'
+            $user:     '%env(AMQP_USER)%'
+            $password: '%env(AMQP_PASSWORD)%'
+            $vhost:    '%env(AMQP_VHOST)%'
+        public: true
+
+    amqp.configurator:
+        class: Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator
+
+
+    # MongoDB client
+    mongodb.client:
+        class: MongoDB\Client
+        arguments:
+            $uri: 'mongodb://%env(MONGODB_HOST)%:%env(MONGODB_PORT)%/'
+        public: true
+
+    mongodb.configurator:
+        class: Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator
+
+
+    # Event sourcing: command bus
+    event_sourcing.command_bus:
+        class: Davamigo\Infrastructure\Core\CommandBus\InstantCommandBus
+        arguments:
+            $handlers:
+                App\BusinessLogic\Domain\Command\CreateAuthor: '@App\BusinessLogic\Application\CommandHandler\CreateAuthorHandler'
+        public: true
+
+
+    # Event sourcing: event bus
+    event_sourcing.event_bus:
+        class: Davamigo\Infrastructure\Core\EventBus\AmqpEventBus
+        public: true
+
+
+    # Event sourcing: event consumer
+    event_sourcing.event_consumer:
+        class: Davamigo\Infrastructure\Core\EventConsumer\AmqpEventConsumer
+        arguments:
+            $events:
+                - '@App\BusinessLogic\Domain\Event\AuthorCreated'
+        public: true
+
+
+    # Event sourcing: event storage
+    event_sourcing.event_storage:
+        class: Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage
+        public: true
+
+
+    # Application commands
+    App\BusinessLogic\Domain\Command\:
+        resource: '../src/BusinessLogic/Domain/Command'
+        tags: ['event_sourcing.command']
+
+
+    # Application command handlers
+    App\BusinessLogic\Application\CommandHandler\:
+        resource: '../src/BusinessLogic/Application/CommandHandler'
+        tags: ['event_sourcing.command_handler']
+
+
+    # Application commands
+    App\BusinessLogic\Domain\Event\:
+        resource: '../src/BusinessLogic/Domain/Event'
+        tags: ['event_sourcing.event']
+
+
+    # Service aliases for autowiring
+    MongoDB\Client: '@mongodb.client'
+    PhpAmqpLib\Connection\AMQPStreamConnection: '@amqp.connection'
+    Davamigo\Domain\Core\CommandBus\CommandBus: '@event_sourcing.command_bus'
+    Davamigo\Domain\Core\EventBus\EventBus: '@event_sourcing.event_bus'
+    Davamigo\Domain\Core\EventConsumer\EventConsumer: '@event_sourcing.event_consumer'
+    Davamigo\Domain\Core\EventStorage\EventStorage: '@event_sourcing.event_storage'
+    Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator: '@amqp.configurator'
+    Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator: '@mongodb.configurator'
