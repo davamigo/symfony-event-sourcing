@@ -3,7 +3,9 @@
 namespace App\BusinessLogic\Domain\Event;
 
 use App\BusinessLogic\Domain\Entity\Author;
+use Davamigo\Domain\Core\Event\Event;
 use Davamigo\Domain\Core\Event\EventBase;
+use Davamigo\Domain\Core\Event\EventException;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
@@ -19,23 +21,40 @@ class AuthorCreated extends EventBase
      * AuthorCreated constructor.
      *
      * @param Author|null      $author
-     * @param string|null      $topic
-     * @param string|null      $routingKey
-     * @param Uuid|string|null $uuid
-     * @param \DateTime|null   $createdAt
      * @param array            $metadata
+     * @param \DateTime|null   $createdAt
+     * @param Uuid|string|null $uuid
      */
     public function __construct(
         Author $author = null,
-        $topic = null,
-        $routingKey = null,
-        $uuid = null,
+        array $metadata = [],
         \DateTime $createdAt = null,
-        array $metadata = []
+        $uuid = null
     ) {
-        $name = self::class;
         $author = $author ?: new Author();
-        parent::__construct($name, $author, $topic, $routingKey, $uuid, $createdAt, $metadata);
+        parent::__construct(
+            self::class,
+            Event::ACTION_INSERT,
+            $author,
+            $metadata,
+            $createdAt,
+            $uuid
+        );
+    }
+
+    /**
+     * Get the author
+     *
+     * @return Author
+     * @throws EventException
+     */
+    public function author() : Author
+    {
+        $author = $this->payload();
+        if (!$author instanceof Author) {
+            throw new EventException('The payload of the event does not contain an author.');
+        }
+        return $author;
     }
 
     /**

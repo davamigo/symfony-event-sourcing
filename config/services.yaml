@@ -26,6 +26,7 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    # Connection to AMQP queue system (RabbitMQ)
     amqp.connection:
         class: PhpAmqpLib\Connection\AMQPStreamConnection
         arguments:
@@ -38,26 +39,45 @@ services:
 
     PhpAmqpLib\Connection\AMQPStreamConnection: '@amqp.connection'
 
+    # MongoDB client
+    mongodb.client:
+        class: MongoDB\Client
+        arguments:
+            $uri: 'mongodb://%env(MONGODB_HOST)%:%env(MONGODB_PORT)%/'
+        public: true
+
+    MongoDB\Client: '@mongodb.client'
+
+    # Event sourcing: command bus
     event_sourcing.command_bus:
-        class: Davamigo\Infrastructure\Core\Command\InstantCommandBus
+        class: Davamigo\Infrastructure\Core\CommandBus\InstantCommandBus
         arguments:
             $handlers:
                 App\BusinessLogic\Domain\Command\CreateAuthor: '@App\BusinessLogic\Application\CommandHandler\CreateAuthorHandler'
         public: true
 
-    Davamigo\Domain\Core\Command\CommandBus: '@event_sourcing.command_bus'
+    Davamigo\Domain\Core\CommandBus\CommandBus: '@event_sourcing.command_bus'
 
+    # Event sourcing: event bus
     event_sourcing.event_bus:
-        class: Davamigo\Infrastructure\Core\Event\AmqpEventBus
-        arguments:
-            $connection: '@amqp.connection'
+        class: Davamigo\Infrastructure\Core\EventBus\AmqpEventBus
+        public: true
 
-    Davamigo\Domain\Core\Event\EventBus: '@event_sourcing.event_bus'
+    Davamigo\Domain\Core\EventBus\EventBus: '@event_sourcing.event_bus'
 
+    # Event sourcing: event consumer
     event_sourcing.event_consumer:
-        class: Davamigo\Infrastructure\Core\Event\AmqpEventConsumer
+        class: Davamigo\Infrastructure\Core\EventConsumer\AmqpEventConsumer
         arguments:
-            $connection: '@amqp.connection'
-            $events: []
+            $events:
+                - '@App\BusinessLogic\Domain\Event\AuthorCreated'
+        public: true
 
-    Davamigo\Domain\Core\Event\EventConsumer: '@event_sourcing.event_consumer'
+    Davamigo\Domain\Core\EventConsumer\EventConsumer: '@event_sourcing.event_consumer'
+
+    # Event sourcing: event storage
+    event_sourcing.event_storage:
+        class: Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage
+        public: true
+
+    Davamigo\Domain\Core\EventStorage\EventStorage: '@event_sourcing.event_storage'

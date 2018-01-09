@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/davamigo/php-event-sourcing.git",
-                "reference": "a429175db1ecb6cea8e7b0902da941e04db883ca"
+                "reference": "098a4453ff3802303cb869e1a623aac24068d52a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/a429175db1ecb6cea8e7b0902da941e04db883ca",
-                "reference": "a429175db1ecb6cea8e7b0902da941e04db883ca",
+                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/098a4453ff3802303cb869e1a623aac24068d52a",
+                "reference": "098a4453ff3802303cb869e1a623aac24068d52a",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "source": "https://github.com/davamigo/php-event-sourcing",
                 "issues": "https://github.com/davamigo/php-event-sourcing/issues"
             },
-            "time": "2018-01-08T01:26:30+00:00"
+            "time": "2018-01-09T16:04:45+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1557,16 +1557,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.57",
+            "version": "v1.0.59",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "73423de7560c492f159aeb3eb9687b470bc87aec"
+                "reference": "2015d2d699ddfaa71a4d2415d39b8bffd13d2ce7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/73423de7560c492f159aeb3eb9687b470bc87aec",
-                "reference": "73423de7560c492f159aeb3eb9687b470bc87aec",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/2015d2d699ddfaa71a4d2415d39b8bffd13d2ce7",
+                "reference": "2015d2d699ddfaa71a4d2415d39b8bffd13d2ce7",
                 "shasum": ""
             },
             "require": {
@@ -1599,7 +1599,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-01-03T11:28:30+00:00"
+            "time": "2018-01-09T05:50:13+00:00"
         },
         {
             "name": "symfony/framework-bundle",

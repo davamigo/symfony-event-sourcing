@@ -21,12 +21,28 @@ class DefaultController extends Controller
      */
     public function homepage()
     {
-        $author = new Author(null, 'J.R.R.', 'Tolkien');
-
-        $createAuthorCommand = new CreateAuthor($author);
-
         $commandBus = $this->get('event_sourcing.command_bus');
-        $commandBus->addCommand($createAuthorCommand);
+
+        $commandBus->addCommand(
+            new CreateAuthor(
+                new Author(
+                    null,
+                    'J. R. R.',
+                    'Tolkien'
+                )
+            )
+        );
+
+        $commandBus->addCommand(
+            new CreateAuthor(
+                new Author(
+                    null,
+                    'George R. R.',
+                    'Martin'
+                )
+            )
+        );
+
         $commandBus->dispatch();
 
         return $this->render('base.html.twig');
