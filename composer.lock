@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/davamigo/php-event-sourcing.git",
-                "reference": "834c0f6ace7447c65d7ef9a80c9f0615774bbbb7"
+                "reference": "da710ccca19b8690ddc4323e97a81849781642c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/834c0f6ace7447c65d7ef9a80c9f0615774bbbb7",
-                "reference": "834c0f6ace7447c65d7ef9a80c9f0615774bbbb7",
+                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/da710ccca19b8690ddc4323e97a81849781642c1",
+                "reference": "da710ccca19b8690ddc4323e97a81849781642c1",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "source": "https://github.com/davamigo/php-event-sourcing",
                 "issues": "https://github.com/davamigo/php-event-sourcing/issues"
             },
-            "time": "2018-01-09T17:05:31+00:00"
+            "time": "2018-01-10T11:52:57+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -354,20 +354,20 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462"
+                "reference": "5527a48b7313d15261292c149e55e26eae771b0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/e11d84c6e018beedd929cff5220969a3c6d1d462",
-                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/5527a48b7313d15261292c149e55e26eae771b0a",
+                "reference": "5527a48b7313d15261292c149e55e26eae771b0a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^6.2"
@@ -375,7 +375,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -417,7 +417,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2017-07-22T12:18:28+00:00"
+            "time": "2018-01-09T20:05:19+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1557,16 +1557,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.59",
+            "version": "v1.0.60",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "2015d2d699ddfaa71a4d2415d39b8bffd13d2ce7"
+                "reference": "066fe955b1a134841cdcc068a9f843594fdb1adc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/2015d2d699ddfaa71a4d2415d39b8bffd13d2ce7",
-                "reference": "2015d2d699ddfaa71a4d2415d39b8bffd13d2ce7",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/066fe955b1a134841cdcc068a9f843594fdb1adc",
+                "reference": "066fe955b1a134841cdcc068a9f843594fdb1adc",
                 "shasum": ""
             },
             "require": {
@@ -1599,7 +1599,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-01-09T05:50:13+00:00"
+            "time": "2018-01-10T07:00:13+00:00"
         },
         {
             "name": "symfony/framework-bundle",

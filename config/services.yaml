@@ -28,5 +28,20 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    # Application events
+    App\BusinessLogic\Domain\Event\:
+        resource: '../src/BusinessLogic/Domain/Event'
+        tags: ['event_sourcing.event']
+
+    # Application commands
+    App\BusinessLogic\Domain\Command\:
+        resource: '../src/BusinessLogic/Domain/Command'
+        tags: ['event_sourcing.command']
+
+    # Application command handlers
+    App\BusinessLogic\Application\CommandHandler\:
+        resource: '../src/BusinessLogic/Application/CommandHandler'
+        tags: ['event_sourcing.command_handler']
+
 imports:
     - { resource: services_evsourcing.yaml }

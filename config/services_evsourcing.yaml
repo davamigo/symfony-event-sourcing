@@ -21,7 +21,6 @@ services:
     amqp.configurator:
         class: Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator
 
-
     # MongoDB client
     mongodb.client:
         class: MongoDB\Client
@@ -32,54 +31,37 @@ services:
     mongodb.configurator:
         class: Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator
 
-
     # Event sourcing: command bus
+    event_sourcing.command_handler_collection:
+        class: Davamigo\Domain\Core\CommandHandler\CommandHandlerCollection
+        arguments: [ !tagged event_sourcing.command_handler]
+
     event_sourcing.command_bus:
         class: Davamigo\Infrastructure\Core\CommandBus\InstantCommandBus
         arguments:
-            $handlers:
-                App\BusinessLogic\Domain\Command\CreateAuthor: '@App\BusinessLogic\Application\CommandHandler\CreateAuthorHandler'
+            $handlers: '@event_sourcing.command_handler_collection'
         public: true
-
 
     # Event sourcing: event bus
     event_sourcing.event_bus:
         class: Davamigo\Infrastructure\Core\EventBus\AmqpEventBus
         public: true
 
-
     # Event sourcing: event consumer
+    event_sourcing.event_collection:
+        class: Davamigo\Domain\Core\Event\EventCollection
+        arguments: [ !tagged event_sourcing.event]
+
     event_sourcing.event_consumer:
         class: Davamigo\Infrastructure\Core\EventConsumer\AmqpEventConsumer
         arguments:
-            $events:
-                - '@App\BusinessLogic\Domain\Event\AuthorCreated'
+            $events: '@event_sourcing.event_collection'
         public: true
-
 
     # Event sourcing: event storage
     event_sourcing.event_storage:
         class: Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage
         public: true
-
-
-    # Application commands
-    App\BusinessLogic\Domain\Command\:
-        resource: '../src/BusinessLogic/Domain/Command'
-        tags: ['event_sourcing.command']
-
-
-    # Application command handlers
-    App\BusinessLogic\Application\CommandHandler\:
-        resource: '../src/BusinessLogic/Application/CommandHandler'
-        tags: ['event_sourcing.command_handler']
-
-
-    # Application commands
-    App\BusinessLogic\Domain\Event\:
-        resource: '../src/BusinessLogic/Domain/Event'
-        tags: ['event_sourcing.event']
-
 
     # Service aliases for autowiring
     MongoDB\Client: '@mongodb.client'

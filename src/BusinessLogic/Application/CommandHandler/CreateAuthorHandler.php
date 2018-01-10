@@ -45,4 +45,14 @@ class CreateAuthorHandler implements CommandHandler
 
         $this->eventBus->publishEvent(new AuthorCreated($command->author()));
     }
+
+    /**
+     * Return the names of the commands who handle this command handler
+     *
+     * @return string[]|string|null
+     */
+    public function handledCommands()
+    {
+        return CreateAuthor::class;
+    }
 }
