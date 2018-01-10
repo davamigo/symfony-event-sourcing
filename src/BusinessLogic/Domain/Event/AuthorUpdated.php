@@ -1,27 +1,28 @@
 <?php
 
-namespace App\BusinessLogic\Domain\Command;
+namespace App\BusinessLogic\Domain\Event;
 
 use App\BusinessLogic\Domain\Entity\Author;
-use Davamigo\Domain\Core\Command\CommandBase;
-use Davamigo\Domain\Core\Command\CommandException;
+use Davamigo\Domain\Core\Event\Event;
+use Davamigo\Domain\Core\Event\EventBase;
+use Davamigo\Domain\Core\Event\EventException;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
 /**
- * Command Create Author
+ * Event Author Updated
  *
- * @package App\BusinessLogic\Domain\Command
+ * @package App\BusinessLogic\Domain\Event
  * @author davamigo@gmail.com
  */
-class CreateAuthor extends CommandBase
+class AuthorUpdated extends EventBase
 {
     /**
-     * CreateAuthor constructor.
+     * AuthorUpdated constructor.
      *
      * @param Author|null      $author
      * @param array            $metadata
-     * @param \DateTime        $createdAt
+     * @param \DateTime|null   $createdAt
      * @param Uuid|string|null $uuid
      */
     public function __construct(
@@ -33,6 +34,7 @@ class CreateAuthor extends CommandBase
         $author = $author ?: new Author();
         parent::__construct(
             self::class,
+            Event::ACTION_UPDATE,
             $author,
             $metadata,
             $createdAt,
@@ -41,16 +43,16 @@ class CreateAuthor extends CommandBase
     }
 
     /**
-     * Get the author from payload
+     * Get the author
      *
      * @return Author
-     * @throws CommandException
+     * @throws EventException
      */
     public function author() : Author
     {
         $author = $this->payload();
         if (!$author instanceof Author) {
-            throw new CommandException('The payload of the command does not contain an author.');
+            throw new EventException('The payload of the event does not contain an author.');
         }
         return $author;
     }

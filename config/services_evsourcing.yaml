@@ -63,6 +63,13 @@ services:
         class: Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage
         public: true
 
+    # Event sourcing: entity projector
+    event_sourcing.entity_projector:
+        class: Davamigo\Infrastructure\Core\EntityProjector\MongoDBEntityProjector
+        arguments:
+            $events: '@event_sourcing.event_collection'
+        public: true
+
     # Service aliases for autowiring
     MongoDB\Client: '@mongodb.client'
     PhpAmqpLib\Connection\AMQPStreamConnection: '@amqp.connection'
@@ -70,5 +77,6 @@ services:
     Davamigo\Domain\Core\EventBus\EventBus: '@event_sourcing.event_bus'
     Davamigo\Domain\Core\EventConsumer\EventConsumer: '@event_sourcing.event_consumer'
     Davamigo\Domain\Core\EventStorage\EventStorage: '@event_sourcing.event_storage'
+    Davamigo\Domain\Core\EntityProjector\EntityProjector: '@event_sourcing.entity_projector'
     Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator: '@amqp.configurator'
     Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator: '@mongodb.configurator'

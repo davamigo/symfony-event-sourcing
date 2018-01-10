@@ -9,15 +9,15 @@ use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
 /**
- * Command Create Author
+ * Command Update Author
  *
  * @package App\BusinessLogic\Domain\Command
  * @author davamigo@gmail.com
  */
-class CreateAuthor extends CommandBase
+class UpdateAuthor extends CommandBase
 {
     /**
-     * CreateAuthor constructor.
+     * UpdateAuthor constructor.
      *
      * @param Author|null      $author
      * @param array            $metadata
