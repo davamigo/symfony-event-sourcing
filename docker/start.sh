@@ -15,3 +15,9 @@ mkdir -p ../var/docker/mysql
 mkdir -p ../var/docker/mongo
 
 docker-compose -f $dockerfile up -d --remove-orphans
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+# Run daemons
+./daemons.sh

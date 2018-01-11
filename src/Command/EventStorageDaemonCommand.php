@@ -42,9 +42,9 @@ class EventStorageDaemonCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('app:event-storer-daemon')
-            ->setDescription('Starts the event storer daemon.')
-            ->setHelp('This command starts the event storer daemon who consumes the events from the events queue.');
+            ->setName('app:event-storage-consumer-daemon')
+            ->setDescription('Starts the event storage consumer daemon.')
+            ->setHelp('This command starts the event storage consumer daemon who consumes the events from the queue.');
     }
 
     /**
