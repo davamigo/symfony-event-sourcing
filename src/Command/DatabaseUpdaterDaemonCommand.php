@@ -3,33 +3,33 @@
 namespace App\Command;
 
 use Davamigo\Domain\Core\EventConsumer\EventConsumer;
-use Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage;
+use Davamigo\Infrastructure\Core\EventStorage\DoctrineEventStorage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command class for event storage daemon: stores the events in the event storage
+ * Command class for event storage daemon: stores the entities inside the events into a MySQL database
  *
  * @package App\Command
  * @author davamigo@gmail.com
  */
-class EventStorageDaemonCommand extends Command
+class DatabaseUpdaterDaemonCommand extends Command
 {
     /** @var EventConsumer */
     private $consumer;
 
-    /** @var MongoDBEventStorage */
+    /** @var DoctrineEventStorage */
     private $storage;
 
     /**
      * EventStorageDaemonCommand constructor.
      *
-     * @param EventConsumer       $consumer
-     * @param MongoDBEventStorage $storage
+     * @param EventConsumer        $consumer
+     * @param DoctrineEventStorage $storage
      */
-    public function __construct(EventConsumer $consumer, MongoDBEventStorage $storage)
+    public function __construct(EventConsumer $consumer, DoctrineEventStorage $storage)
     {
         parent::__construct();
         $this->consumer = $consumer;
@@ -42,9 +42,9 @@ class EventStorageDaemonCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('app:event-storage-consumer-daemon')
-            ->setDescription('Starts the event storage consumer daemon.')
-            ->setHelp('This command starts the event storage consumer daemon who consumes the events from the queue.');
+            ->setName('app:database-updater-daemon')
+            ->setDescription('Starts the database updater daemon.')
+            ->setHelp('This command starts the database updater daemon who updates the MySQL database.');
     }
 
     /**
@@ -67,7 +67,7 @@ class EventStorageDaemonCommand extends Command
         $callable = [$this->storage, 'storeEvent'];
 
         // Start listening the queue
-        $this->consumer->listen('app.events.storage', $callable);
+        $this->consumer->listen('app.events.model', $callable);
 
         return 0;
     }

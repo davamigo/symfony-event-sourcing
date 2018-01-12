@@ -9,6 +9,7 @@ use Davamigo\Domain\Core\Uuid\UuidObj;
 use MongoDB\Model\BSONDocument;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Default controller class
@@ -20,6 +21,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
+     * Homepage controller - shows the main menu
+     *
+     * @return Response
      * @Route("/", name="homepage")
      */
     public function homepage()
@@ -52,12 +56,19 @@ class DefaultController extends Controller
 //        $commandBus->dispatch();
 
 
-        $projector = $this->get('event_sourcing.entity_projector');
+//        $projector = $this->get('event_sourcing.entity_projector');
+//
+//        $result = $projector->findEntity(UuidObj::fromString('818641da-f615-11e7-aaef-13aa4ce55a47'));
+//
+//        dump($result);
 
-        $result = $projector->findEntity(UuidObj::fromString('818641da-f615-11e7-aaef-13aa4ce55a47'));
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $list = $em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
+//
+//        dump($list);
+//        dump(get_class_methods($list[0]));
 
-        dump($result);
-
-        return $this->render('base.html.twig');
+        return $this->render('Default/homepage.html.twig');
     }
 }

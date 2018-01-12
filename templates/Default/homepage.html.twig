@@ -1,0 +1,22 @@
+{# templates/Default/homepage.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Homepage</h1>
+        <h2>Main menu</h2>
+        <ul>
+            <li>
+                <a href="{{ path('author_index') }}">Authors</a>
+            </li>
+            <li>
+                Publishers
+            </li>
+            <li>
+                Books
+            </li>
+        </ul>
+    </div>
+{% endblock %}

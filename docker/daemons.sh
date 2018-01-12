@@ -16,3 +16,6 @@ cd $dir
 
 # nohup $console app:event-storage-consumer-daemon & 1> /dev/null 2> /dev/null
 docker exec -d -u $user $service $console app:event-storage-consumer-daemon
+
+# nohup $console app:app:database-updater-daemon & 1> /dev/null 2> /dev/null
+docker exec -d -u $user $service $console app:database-updater-daemon

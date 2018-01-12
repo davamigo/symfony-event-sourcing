@@ -59,9 +59,11 @@ services:
         public: true
 
     # Event sourcing: event storage
-    event_sourcing.event_storage:
+    event_sourcing.event_storage.mongodb:
         class: Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage
-        public: true
+
+    event_sourcing.event_storage.doctrine:
+        class: Davamigo\Infrastructure\Core\EventStorage\DoctrineEventStorage
 
     # Event sourcing: entity projector
     event_sourcing.entity_projector:
@@ -76,7 +78,8 @@ services:
     Davamigo\Domain\Core\CommandBus\CommandBus: '@event_sourcing.command_bus'
     Davamigo\Domain\Core\EventBus\EventBus: '@event_sourcing.event_bus'
     Davamigo\Domain\Core\EventConsumer\EventConsumer: '@event_sourcing.event_consumer'
-    Davamigo\Domain\Core\EventStorage\EventStorage: '@event_sourcing.event_storage'
     Davamigo\Domain\Core\EntityProjector\EntityProjector: '@event_sourcing.entity_projector'
+    Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage: '@event_sourcing.event_storage.mongodb'
+    Davamigo\Infrastructure\Core\EventStorage\DoctrineEventStorage: '@event_sourcing.event_storage.doctrine'
     Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator: '@amqp.configurator'
     Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator: '@mongodb.configurator'

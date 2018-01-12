@@ -1,0 +1,21 @@
+{# templates/Author/update.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Insert author{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Authors</h1>
+        <h2>Edit {{ author.firstName }} {{ author.lastName }}</h2>
+        {% include 'Author/form.html.twig' %}
+        <h3>Options</h3>
+        <ul>
+            <li>
+                <a href="{{ path('author_index') }}">Go back</a>
+            </li>
+            <li>
+                <a href="{{ path('homepage') }}">Main menu</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

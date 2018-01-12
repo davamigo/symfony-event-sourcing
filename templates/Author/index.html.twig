@@ -1,0 +1,66 @@
+{# templates/Author/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Author list{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Authors</h1>
+        <h2>List</h2>
+        {% if authors is empty %}
+            <p>
+                No authors found!
+            </p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Born date</th>
+                        <th>Died date</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                {% for author in authors %}
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ author.firstName }}
+                            </td>
+                            <td>
+                                {{ author.lastName }}
+                            </td>
+                            <td>
+                                {% if author.bornDate is null %}
+                                    &ndash;
+                                {% else %}
+                                    {{ author.bornDate | date('Y-m-d') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if author.diedDate is null %}
+                                    &ndash;
+                                {% else %}
+                                    {{ author.diedDate | date('Y-m-d') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('author_edit', {'uuid': author.uuid}) }}">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        {% endif %}
+        <h3>Options</h3>
+        <ul>
+            <li>
+                <a href="{{ path('author_insert') }}">Insert author</a>
+            </li>
+            <li>
+                <a href="{{ path('homepage') }}">Go back</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

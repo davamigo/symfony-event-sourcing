@@ -3,6 +3,7 @@
 namespace App\BusinessLogic\Domain\Entity;
 
 use Davamigo\Domain\Core\Entity\EntityBase;
+use Davamigo\Domain\Core\Serializable\Serializable;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
@@ -122,8 +123,45 @@ class Author extends EntityBase
     }
 
     /**
-     * @method create
-     * @method serialize
+     * Creates a serializable object from an array
+     *
+     * @param array $data
+     * @return Serializable
      */
-    use SerializableTrait;
+    public static function create(array $data): Serializable
+    {
+        $bornDate = null;
+        if (isset($data['bornDate'])) {
+            $bornDate = \DateTime::createFromFormat(\DateTime::RFC3339, $data['bornDate']);
+        }
+
+        $diedDate = null;
+        if (isset($data['diedDate'])) {
+            $diedDate = \DateTime::createFromFormat(\DateTime::RFC3339, $data['diedDate']);
+        }
+
+        return new static(
+            $data['uuid'] ?? null,
+            $data['firstName'] ?? null,
+            $data['lastName'] ?? null,
+            $bornDate,
+            $diedDate
+        );
+    }
+
+    /**
+     * Serializes the object to an array
+     *
+     * @return array
+     */
+    public function serialize(): array
+    {
+        return [
+            'uuid'      => $this->uuid()->toString(),
+            'firstName' => $this->firstName(),
+            'lastName'  => $this->lastName(),
+            'bornDate'  => $this->bornDate()->format(\DateTime::RFC3339),
+            'diedDate'  => $this->diedDate()->format(\DateTime::RFC3339)
+        ];
+    }
 }
