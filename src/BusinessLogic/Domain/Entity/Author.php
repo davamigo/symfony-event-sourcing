@@ -130,14 +130,14 @@ class Author extends EntityBase
      */
     public static function create(array $data): Serializable
     {
-        $bornDate = null;
-        if (isset($data['bornDate'])) {
-            $bornDate = \DateTime::createFromFormat(\DateTime::RFC3339, $data['bornDate']);
+        $bornDate = $data['bornDate'] ?? null;
+        if (null !== $bornDate) {
+            $bornDate = \DateTime::createFromFormat(\DateTime::RFC3339, $bornDate);
         }
 
-        $diedDate = null;
-        if (isset($data['diedDate'])) {
-            $diedDate = \DateTime::createFromFormat(\DateTime::RFC3339, $data['diedDate']);
+        $diedDate = $data['diedDate'] ?? null;
+        if (null !== $diedDate) {
+            $diedDate = \DateTime::createFromFormat(\DateTime::RFC3339, $diedDate);
         }
 
         return new static(
@@ -156,12 +156,15 @@ class Author extends EntityBase
      */
     public function serialize(): array
     {
+        $formattedBornDate = (null == $this->bornDate()) ? null : $this->bornDate()->format(\DateTime::RFC3339);
+        $formattedDiedDate = (null == $this->diedDate()) ? null : $this->diedDate()->format(\DateTime::RFC3339);
+
         return [
             'uuid'      => $this->uuid()->toString(),
             'firstName' => $this->firstName(),
             'lastName'  => $this->lastName(),
-            'bornDate'  => $this->bornDate()->format(\DateTime::RFC3339),
-            'diedDate'  => $this->diedDate()->format(\DateTime::RFC3339)
+            'bornDate'  => $formattedBornDate,
+            'diedDate'  => $formattedDiedDate
         ];
     }
 }
