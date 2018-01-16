@@ -22,5 +22,5 @@ done
 if [ "$args" == "" ]; then
     docker exec -it -u $user $service bash
 else
-    docker exec -it -u $user $service $args
+    docker exec -t -u $user $service $args
 fi
