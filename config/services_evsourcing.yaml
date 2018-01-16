@@ -19,7 +19,7 @@ services:
         public: true
 
     amqp.configurator:
-        class: Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator
+        class: Davamigo\Infrastructure\Config\AmqpConfigurator
 
     # MongoDB client
     mongodb.client:
@@ -29,7 +29,7 @@ services:
         public: true
 
     mongodb.configurator:
-        class: Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator
+        class: Davamigo\Infrastructure\Config\MongoDBConfigurator
 
     # Event sourcing: command bus
     event_sourcing.command_handler_collection:
@@ -58,12 +58,12 @@ services:
             $events: '@event_sourcing.event_collection'
         public: true
 
-    # Event sourcing: event storage
-    event_sourcing.event_storage.mongodb:
-        class: Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage
+    # Event sourcing: event handlers
+    event_sourcing.event_handler.mongodb_storage:
+        class: Davamigo\Infrastructure\Core\EventHandler\MongoDBEventStorageHandler
 
-    event_sourcing.event_storage.doctrine:
-        class: Davamigo\Infrastructure\Core\EventStorage\DoctrineEventStorage
+    event_sourcing.event_handler.doctrine_persister:
+        class: Davamigo\Infrastructure\Core\EventHandler\DoctrinePersistEntityEventHandler
 
     # Event sourcing: entity projector
     event_sourcing.entity_projector:
@@ -79,7 +79,7 @@ services:
     Davamigo\Domain\Core\EventBus\EventBus: '@event_sourcing.event_bus'
     Davamigo\Domain\Core\EventConsumer\EventConsumer: '@event_sourcing.event_consumer'
     Davamigo\Domain\Core\EntityProjector\EntityProjector: '@event_sourcing.entity_projector'
-    Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage: '@event_sourcing.event_storage.mongodb'
-    Davamigo\Infrastructure\Core\EventStorage\DoctrineEventStorage: '@event_sourcing.event_storage.doctrine'
-    Davamigo\Infrastructure\Core\Helpers\AmqpConfigurator: '@amqp.configurator'
-    Davamigo\Infrastructure\Core\Helpers\MongoDBConfigurator: '@mongodb.configurator'
+    Davamigo\Infrastructure\Core\EventHandler\MongoDBEventStorageHandler: '@event_sourcing.event_handler.mongodb_storage'
+    Davamigo\Infrastructure\Core\EventHandler\DoctrinePersistEntityEventHandler: '@event_sourcing.event_handler.doctrine_persister'
+    Davamigo\Infrastructure\Config\AmqpConfigurator: '@amqp.configurator'
+    Davamigo\Infrastructure\Config\MongoDBConfigurator: '@mongodb.configurator'

@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use Davamigo\Domain\Core\EventConsumer\EventConsumer;
-use Davamigo\Infrastructure\Core\EventStorage\MongoDBEventStorage;
+use Davamigo\Infrastructure\Core\EventHandler\MongoDBEventStorageHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,16 +20,16 @@ class EventStorageDaemonCommand extends Command
     /** @var EventConsumer */
     private $consumer;
 
-    /** @var MongoDBEventStorage */
+    /** @var MongoDBEventStorageHandler */
     private $storage;
 
     /**
      * EventStorageDaemonCommand constructor.
      *
-     * @param EventConsumer       $consumer
-     * @param MongoDBEventStorage $storage
+     * @param EventConsumer              $consumer
+     * @param MongoDBEventStorageHandler $storage
      */
-    public function __construct(EventConsumer $consumer, MongoDBEventStorage $storage)
+    public function __construct(EventConsumer $consumer, MongoDBEventStorageHandler $storage)
     {
         parent::__construct();
         $this->consumer = $consumer;
@@ -63,11 +63,8 @@ class EventStorageDaemonCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var Callable $callable */
-        $callable = [$this->storage, 'storeEvent'];
-
         // Start listening the queue
-        $this->consumer->listen('app.events.storage', $callable);
+        $this->consumer->listen('app.events.storage', $this->storage);
 
         return 0;
     }

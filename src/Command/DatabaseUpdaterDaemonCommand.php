@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use Davamigo\Domain\Core\EventConsumer\EventConsumer;
-use Davamigo\Infrastructure\Core\EventStorage\DoctrineEventStorage;
+use Davamigo\Infrastructure\Core\EventHandler\DoctrinePersistEntityEventHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,20 +20,20 @@ class DatabaseUpdaterDaemonCommand extends Command
     /** @var EventConsumer */
     private $consumer;
 
-    /** @var DoctrineEventStorage */
-    private $storage;
+    /** @var DoctrinePersistEntityEventHandler */
+    private $persister;
 
     /**
      * EventStorageDaemonCommand constructor.
      *
-     * @param EventConsumer        $consumer
-     * @param DoctrineEventStorage $storage
+     * @param EventConsumer                     $consumer
+     * @param DoctrinePersistEntityEventHandler $persister
      */
-    public function __construct(EventConsumer $consumer, DoctrineEventStorage $storage)
+    public function __construct(EventConsumer $consumer, DoctrinePersistEntityEventHandler $persister)
     {
         parent::__construct();
         $this->consumer = $consumer;
-        $this->storage = $storage;
+        $this->persister = $persister;
     }
 
     /**
@@ -63,11 +63,8 @@ class DatabaseUpdaterDaemonCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var Callable $callable */
-        $callable = [$this->storage, 'storeEvent'];
-
         // Start listening the queue
-        $this->consumer->listen('app.events.model', $callable);
+        $this->consumer->listen('app.events.model', $this->persister);
 
         return 0;
     }
