@@ -1,54 +1,54 @@
-{# templates/Author/index.html.twig #}
+{# templates/Book/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Author list{% endblock %}
+{% block title %}Book list{% endblock %}
 
 {% block body %}
     <div>
-        <h1>Authors</h1>
+        <h1>Books</h1>
         <h2>List</h2>
-        {% if authors is empty %}
+        {% if books is empty %}
             <p>
-                No authors found!
+                No books found!
             </p>
         {% else %}
             <table>
                 <thead>
                     <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Born date</th>
-                        <th>Died date</th>
+                        <th>Name</th>
+                        <th>Release date</th>
+                        <th>Publisher</th>
+                        <th>Authors</th>
                         <th>Options</th>
                     </tr>
                 </thead>
-                {% for author in authors %}
+                {% for book in books %}
                     <tbody>
                         <tr>
                             <td>
-                                {{ author.firstName }}
+                                {{ book.name }}
                             </td>
                             <td>
-                                {{ author.lastName }}
-                            </td>
-                            <td>
-                                {% if author.bornDate is null %}
+                                {% if book.releaseDate is null %}
                                     &ndash;
                                 {% else %}
-                                    {{ author.bornDate | date('Y-m-d') }}
+                                    {{ book.releaseDate | date('Y-m-d') }}
                                 {% endif %}
                             </td>
                             <td>
-                                {% if author.diedDate is null %}
+                                {% if book.publisher is null %}
                                     &ndash;
                                 {% else %}
-                                    {{ author.diedDate | date('Y-m-d') }}
+                                    {{ book.publisher.name }}
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ path('author_edit', {'uuid': author.uuid}) }}">Edit</a>
+                                {# book.authors #}
+                            </td>
+                            <td>
+                                <a href="{{ path('book_edit', {'uuid': book.uuid}) }}">Edit</a>
                                 |
-                                <a href="{{ path('author_remove', {'uuid': author.uuid}) }}">Delete</a>
+                                Delete {#<a href="{{ path('book_remove', {'uuid': book.uuid}) }}">Delete</a>#}
                             </td>
                         </tr>
                     </tbody>
@@ -58,7 +58,7 @@
         <h3>Options</h3>
         <ul>
             <li>
-                <a href="{{ path('author_insert') }}">Insert author</a>
+                <a href="{{ path('book_insert') }}">Insert book</a>
             </li>
             <li>
                 <a href="{{ path('homepage') }}">Go back</a>

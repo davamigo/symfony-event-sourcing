@@ -6,18 +6,18 @@ use App\BusinessLogic\Domain\Entity\Author;
 use Davamigo\Domain\Core\Command\CommandBase;
 use Davamigo\Domain\Core\Command\CommandException;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
-use Davamigo\Domain\Core\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 /**
- * Command to update an author
+ * Command to delete an author
  *
  * @package App\BusinessLogic\Domain\Command
  * @author davamigo@gmail.com
  */
-class UpdateAuthor extends CommandBase
+class DeleteAuthor extends CommandBase
 {
     /**
-     * UpdateAuthor constructor.
+     * DeleteAuthor constructor.
      *
      * @param Author|null      $author
      * @param array            $metadata

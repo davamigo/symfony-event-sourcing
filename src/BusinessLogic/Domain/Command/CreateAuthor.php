@@ -9,7 +9,7 @@ use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
 /**
- * Command Create Author
+ * Command to create an author
  *
  * @package App\BusinessLogic\Domain\Command
  * @author davamigo@gmail.com

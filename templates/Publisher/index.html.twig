@@ -1,0 +1,48 @@
+{# templates/Publisher/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Publisher list{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Publishers</h1>
+        <h2>List</h2>
+        {% if publishers is empty %}
+            <p>
+                No publishers found!
+            </p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                {% for publisher in publishers %}
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ publisher.name }}
+                            </td>
+                            <td>
+                                Edit {#<a href="{{ path('publisher_edit', {'uuid': publisher.uuid}) }}">Edit</a>#}
+                                |
+                                Delete {#<a href="{{ path('publisher_remove', {'uuid': publisher.uuid}) }}">Delete</a>#}
+                            </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        {% endif %}
+        <h3>Options</h3>
+        <ul>
+            <li>
+                <a href="{{ path('publisher_insert') }}">Insert publisher</a>
+            </li>
+            <li>
+                <a href="{{ path('homepage') }}">Go back</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

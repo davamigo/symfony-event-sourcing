@@ -3,6 +3,7 @@
 namespace App\BusinessLogic\Domain\Entity;
 
 use Davamigo\Domain\Core\Entity\EntityBase;
+use Davamigo\Domain\Core\Serializable\Serializable;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
@@ -17,11 +18,11 @@ class Book extends EntityBase
     /** @var string */
     private $name;
 
-    /** @var Publisher */
-    private $publisher;
-
     /** @var \DateTime */
     private $releaseDate;
+
+    /** @var Publisher */
+    private $publisher;
 
     /** @var Author[] */
     private $authors;
@@ -35,19 +36,19 @@ class Book extends EntityBase
     }
 
     /**
-     * @return Publisher
-     */
-    public function publisher()
-    {
-        return $this->publisher;
-    }
-
-    /**
      * @return \DateTime
      */
     public function releaseDate()
     {
         return $this->releaseDate;
+    }
+
+    /**
+     * @return Publisher
+     */
+    public function publisher()
+    {
+        return $this->publisher;
     }
 
     /**
@@ -61,29 +62,86 @@ class Book extends EntityBase
     /**
      * Book constructor.
      *
-     * @param Uuid|string|null $uuid
      * @param string|null      $name
-     * @param Publisher|null   $publisher
      * @param \DateTime|null   $releaseDate
+     * @param Publisher|null   $publisher
      * @param Author[]         $authors
+     * @param Uuid|string|null $uuid
      */
     public function __construct(
-        $uuid = null,
         string $name = null,
-        Publisher $publisher = null,
         \DateTime $releaseDate = null,
-        array $authors = []
+        Publisher $publisher = null,
+        array $authors = [],
+        $uuid = null
     ) {
         parent::__construct($uuid);
         $this->name = $name;
-        $this->publisher = $publisher ?: new Publisher();
-        $this->releaseDate = $releaseDate ?: new \DateTime();
-        $this->authors = !empty($authors) ? $authors : [ new Author() ];
+        $this->releaseDate = $releaseDate;
+        $this->publisher = $publisher;
+        $this->authors = $authors;
     }
 
     /**
-     * @method create
-     * @method serialize
+     * Creates a serializable object from an array
+     *
+     * @param array $data
+     * @return Serializable
      */
-    use SerializableTrait;
+    public static function create(array $data) : Serializable
+    {
+        $name = $data['name'] ?? null;
+        $releaseDate = $data['releaseDate'] ?? null;
+        $publisher = $data['publisher'] ?? null;
+        $authors = array_map(
+            function (array $author) {
+                return Author::create($author);
+            },
+            $data['authors'] ?? []
+        );
+        $uuid = $data['uuid'] ?? null;
+
+        if (null !== $publisher) {
+            $publisher = Publisher::create($publisher);
+        }
+
+        if (null !== $releaseDate) {
+            $releaseDate = \DateTime::createFromFormat(\DateTime::RFC3339, $releaseDate);
+        }
+
+        return new static(
+            $name,
+            $releaseDate,
+            $publisher,
+            $authors,
+            $uuid
+        );
+    }
+
+    /**
+     * Serializes the object to an array
+     *
+     * @return array
+     */
+    public function serialize() : array
+    {
+        $theReleaseDate = (null == $this->releaseDate()) ? null : $this->releaseDate()->format(\DateTime::RFC3339);
+
+        $thePublisher = (null == $this->publisher) ? null : $this->publisher()->serialize();
+
+        $theAuthors = array_map(
+            function (Author $author) {
+                return $author->serialize();
+            },
+            $this->authors()
+        );
+
+        return [
+            'uuid'          => $this->uuid()->toString(),
+            'name'          => $this->name(),
+            'releaseDate'   => $theReleaseDate,
+            'publisher'     => $thePublisher,
+            'authors'       => $theAuthors
+        ];
+    }
 }

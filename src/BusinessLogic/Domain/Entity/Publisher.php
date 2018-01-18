@@ -28,11 +28,13 @@ class Publisher extends EntityBase
     /**
      * Publisher constructor
      *
-     * @param Uuid|string|null $uuid
      * @param string|null      $name
+     * @param Uuid|string|null $uuid
      */
-    public function __construct($uuid = null, string $name = null)
-    {
+    public function __construct(
+        string $name = null,
+        $uuid = null
+    ) {
         parent::__construct($uuid);
         $this->name = $name;
     }

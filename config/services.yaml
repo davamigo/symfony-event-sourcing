@@ -40,8 +40,8 @@ services:
         tags: ['event_sourcing.command']
 
     # Application command handlers
-    App\BusinessLogic\Application\CommandHandler\:
-        resource: '../src/BusinessLogic/Application/CommandHandler'
+    App\BusinessLogic\Domain\CommandHandler\:
+        resource: '../src/BusinessLogic/Domain/CommandHandler'
         tags: ['event_sourcing.command_handler']
 
 imports:

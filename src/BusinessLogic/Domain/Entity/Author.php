@@ -102,18 +102,18 @@ class Author extends EntityBase
     /**
      * Author constructor
      *
-     * @param Uuid|string|null $uuid
      * @param string|null      $firstName
      * @param string|null      $lastName
      * @param \DateTime|null   $bornDate
      * @param \DateTime|null   $diedDate
+     * @param Uuid|string|null $uuid
      */
     public function __construct(
-        $uuid = null,
         string $firstName = null,
         string $lastName = null,
         \DateTime $bornDate = null,
-        \DateTime $diedDate = null
+        \DateTime $diedDate = null,
+        $uuid = null
     ) {
         parent::__construct($uuid);
         $this->firstName = $firstName;
@@ -130,22 +130,26 @@ class Author extends EntityBase
      */
     public static function create(array $data): Serializable
     {
+        $firstName = $data['firstName'] ?? null;
+        $lastName = $data['lastName'] ?? null;
         $bornDate = $data['bornDate'] ?? null;
+        $diedDate = $data['diedDate'] ?? null;
+        $uuid = $data['uuid'] ?? null;
+
         if (null !== $bornDate) {
             $bornDate = \DateTime::createFromFormat(\DateTime::RFC3339, $bornDate);
         }
 
-        $diedDate = $data['diedDate'] ?? null;
         if (null !== $diedDate) {
             $diedDate = \DateTime::createFromFormat(\DateTime::RFC3339, $diedDate);
         }
 
         return new static(
-            $data['uuid'] ?? null,
-            $data['firstName'] ?? null,
-            $data['lastName'] ?? null,
+            $firstName,
+            $lastName,
             $bornDate,
-            $diedDate
+            $diedDate,
+            $uuid
         );
     }
 

@@ -2,38 +2,38 @@
 
 namespace App\BusinessLogic\Domain\Command;
 
-use App\BusinessLogic\Domain\Entity\Author;
+use App\BusinessLogic\Domain\Entity\Book;
 use Davamigo\Domain\Core\Command\CommandBase;
 use Davamigo\Domain\Core\Command\CommandException;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
 /**
- * Command to update an author
+ * Command to update a book
  *
  * @package App\BusinessLogic\Domain\Command
  * @author davamigo@gmail.com
  */
-class UpdateAuthor extends CommandBase
+class UpdateBook extends CommandBase
 {
     /**
-     * UpdateAuthor constructor.
+     * UpdateBook constructor.
      *
-     * @param Author|null      $author
+     * @param Book|null        $book
      * @param array            $metadata
      * @param \DateTime        $createdAt
      * @param Uuid|string|null $uuid
      */
     public function __construct(
-        Author $author = null,
+        Book $book = null,
         array $metadata = [],
         \DateTime $createdAt = null,
         $uuid = null
     ) {
-        $author = $author ?: new Author();
+        $book = $book ?: new Book();
         parent::__construct(
             self::class,
-            $author,
+            $book,
             $metadata,
             $createdAt,
             $uuid
@@ -41,18 +41,18 @@ class UpdateAuthor extends CommandBase
     }
 
     /**
-     * Get the author from payload
+     * Get the book from payload
      *
-     * @return Author
+     * @return Book
      * @throws CommandException
      */
-    public function author() : Author
+    public function book() : Book
     {
-        $author = $this->payload();
-        if (!$author instanceof Author) {
-            throw new CommandException('The payload of the command does not contain an author.');
+        $book = $this->payload();
+        if (!$book instanceof Book) {
+            throw new CommandException('The payload of the command does not contain an Book.');
         }
-        return $author;
+        return $book;
     }
 
     /**

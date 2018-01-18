@@ -1,0 +1,21 @@
+{# templates/Publisher/insert.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Insert publisher{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Publishers</h1>
+        <h2>Insert</h2>
+        {% include 'Publisher/form.html.twig' %}
+        <h3>Options</h3>
+        <ul>
+            <li>
+                <a href="{{ path('publisher_index') }}">Go back</a>
+            </li>
+            <li>
+                <a href="{{ path('homepage') }}">Main menu</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

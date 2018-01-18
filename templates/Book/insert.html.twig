@@ -1,0 +1,21 @@
+{# templates/Book/insert.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Insert book{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Books</h1>
+        <h2>Insert</h2>
+        {% include 'Book/form.html.twig' %}
+        <h3>Options</h3>
+        <ul>
+            <li>
+                <a href="{{ path('book_index') }}">Go back</a>
+            </li>
+            <li>
+                <a href="{{ path('homepage') }}">Main menu</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

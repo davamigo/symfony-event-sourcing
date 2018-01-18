@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Entityt Author
+ * Doctrine entity Author
  *
  * @package App\Entity
  * @author davamigo@gmail.com
@@ -20,37 +20,38 @@ class Author
      * @var string
      * @ORM\Id
      * @ORM\Column(type="string", length=36, nullable=false)
-     * @Assert\Length(min="36", max="36", groups={"update"})
+     * @Assert\NotBlank(groups={"update", "delete"})
+     * @Assert\Length(min="36", max="36", groups={"update", "delete"})
      */
     private $uuid = null;
 
     /**
      * @var string
      * @ORM\Column(name="first_name", type="string", length=128, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(max="128")
+     * @Assert\NotBlank(groups={"insert", "update"})
+     * @Assert\Length(max="128", groups={"insert", "update"})
      */
     private $firstName = null;
 
     /**
      * @var string
      * @ORM\Column(name="last_name", type="string", length=128, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(max="128")
+     * @Assert\NotBlank(groups={"insert", "update"})
+     * @Assert\Length(max="128", groups={"insert", "update"})
      */
     private $lastName = null;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="born_date", type="date", nullable=true)
-     * @Assert\Type("\DateTime")
+     * @Assert\Type("\DateTime", groups={"insert", "update"})
      */
     private $bornDate = null;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="died_date", type="date", nullable=true)
-     * @Assert\Type("\DateTime")
+     * @Assert\Type("\DateTime", groups={"insert", "update"})
      */
     private $diedDate = null;
 
@@ -60,11 +61,11 @@ class Author
     public function toDomainEntity() : DomainAuthor
     {
         return new DomainAuthor(
-            $this->uuid,
             $this->firstName,
             $this->lastName,
             $this->bornDate,
-            $this->diedDate
+            $this->diedDate,
+            $this->uuid
         );
     }
 

@@ -3,19 +3,17 @@
 namespace App\Controller;
 
 use App\BusinessLogic\Domain\Command\CreateAuthor;
+use App\BusinessLogic\Domain\Command\DeleteAuthor;
 use App\BusinessLogic\Domain\Command\UpdateAuthor;
 use App\Entity\Author;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\TransactionRequiredException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controller for Author actions
@@ -43,7 +41,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Insert author controller action - inserts an actor
+     * Insert author controller action - inserts an author
      *
      * @param Request $request
      * @return Response
@@ -57,7 +55,8 @@ class AuthorController extends Controller
 
         $formOptions = [
             'action' => $this->generateUrl('author_post'),
-            'method' => 'POST'
+            'method' => 'POST',
+            'validation_groups' => 'insert'
         ];
 
         $dateOptions = [
@@ -71,7 +70,7 @@ class AuthorController extends Controller
             ->add('lastName', TextType::class)
             ->add('bornDate', DateType::class, $dateOptions)
             ->add('diedDate', DateType::class, $dateOptions)
-            ->add('save', SubmitType::class, array('label' => 'Insert Author'))
+            ->add('insert', SubmitType::class, array('label' => 'Insert Author'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -92,7 +91,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Update author controller action - updates an actor
+     * Update author controller action - updates an author
      *
      * @param string  $uuid
      * @param Request $request
@@ -111,13 +110,14 @@ class AuthorController extends Controller
             throw $this->createNotFoundException('No author found for id ' . $uuid);
         }
 
-        $uuidOptions = [
-            'disabled' => true
-        ];
-
         $formOptions = [
             'action' => $this->generateUrl('author_put', [ 'uuid' => $uuid ]),
-            'method' => 'PUT'
+            'method' => 'PUT',
+            'validation_groups' => 'update'
+        ];
+
+        $uuidOptions = [
+            'disabled' => true
         ];
 
         $dateOptions = [
@@ -132,7 +132,7 @@ class AuthorController extends Controller
             ->add('lastName', TextType::class)
             ->add('bornDate', DateType::class, $dateOptions)
             ->add('diedDate', DateType::class, $dateOptions)
-            ->add('save', SubmitType::class, array('label' => 'Update Author'))
+            ->add('update', SubmitType::class, array('label' => 'Update Author'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -148,6 +148,61 @@ class AuthorController extends Controller
         }
 
         return $this->render('Author/update.html.twig', [
+            'form'   => $form->createView(),
+            'author' => $author
+        ]);
+    }
+
+    /**
+     * Delete author controller action - deletes an author
+     *
+     * @param string  $uuid
+     * @param Request $request
+     * @return Response
+     * @Route("/{uuid}/delete", name="author_remove", methods={"GET"})
+     * @Route("/{uuid}", name="author_delete", methods={"DELETE"})
+     */
+    public function delete($uuid, Request $request)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Author $author */
+        $author = $em->getRepository(Author::class)->find($uuid);
+        if (!$author) {
+            throw $this->createNotFoundException('No author found for id ' . $uuid);
+        }
+
+        $disabledOptions = [
+            'disabled' => true
+        ];
+
+        $formOptions = [
+            'action' => $this->generateUrl('author_delete', [ 'uuid' => $uuid ]),
+            'method' => 'DELETE',
+            'validation_groups' => 'delete'
+        ];
+
+        $form = $this->createFormBuilder($author, $formOptions)
+            ->add('uuid', TextType::class, $disabledOptions)
+            ->add('firstName', TextType::class, $disabledOptions)
+            ->add('lastName', TextType::class, $disabledOptions)
+            ->add('delete', SubmitType::class, array('label' => 'Delete Author'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $author = $form->getData();
+
+            $commandBus = $this->get('event_sourcing.command_bus');
+            $commandBus->addCommand(new DeleteAuthor($author->toDomainEntity()));
+            $commandBus->dispatch();
+
+            return $this->redirectToRoute('author_index');
+        }
+
+        return $this->render('Author/delete.html.twig', [
             'form'   => $form->createView(),
             'author' => $author
         ]);

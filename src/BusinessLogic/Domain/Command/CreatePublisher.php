@@ -2,38 +2,38 @@
 
 namespace App\BusinessLogic\Domain\Command;
 
-use App\BusinessLogic\Domain\Entity\Author;
+use App\BusinessLogic\Domain\Entity\Publisher;
 use Davamigo\Domain\Core\Command\CommandBase;
 use Davamigo\Domain\Core\Command\CommandException;
 use Davamigo\Domain\Core\Serializable\SerializableTrait;
 use Davamigo\Domain\Core\Uuid\Uuid;
 
 /**
- * Command to update an author
+ * Command to create a publisher
  *
  * @package App\BusinessLogic\Domain\Command
  * @author davamigo@gmail.com
  */
-class UpdateAuthor extends CommandBase
+class CreatePublisher extends CommandBase
 {
     /**
-     * UpdateAuthor constructor.
+     * CreatePublisher constructor.
      *
-     * @param Author|null      $author
+     * @param Publisher|null   $Publisher
      * @param array            $metadata
      * @param \DateTime        $createdAt
      * @param Uuid|string|null $uuid
      */
     public function __construct(
-        Author $author = null,
+        Publisher $Publisher = null,
         array $metadata = [],
         \DateTime $createdAt = null,
         $uuid = null
     ) {
-        $author = $author ?: new Author();
+        $Publisher = $Publisher ?: new Publisher();
         parent::__construct(
             self::class,
-            $author,
+            $Publisher,
             $metadata,
             $createdAt,
             $uuid
@@ -41,18 +41,18 @@ class UpdateAuthor extends CommandBase
     }
 
     /**
-     * Get the author from payload
+     * Get the publisher from payload
      *
-     * @return Author
+     * @return Publisher
      * @throws CommandException
      */
-    public function author() : Author
+    public function publisher() : Publisher
     {
-        $author = $this->payload();
-        if (!$author instanceof Author) {
-            throw new CommandException('The payload of the command does not contain an author.');
+        $publisher = $this->payload();
+        if (!$publisher instanceof Publisher) {
+            throw new CommandException('The payload of the command does not contain an Publisher.');
         }
-        return $author;
+        return $publisher;
     }
 
     /**

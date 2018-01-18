@@ -1,27 +1,27 @@
 <?php
 
-namespace App\BusinessLogic\Application\CommandHandler;
+namespace App\BusinessLogic\Domain\CommandHandler;
 
-use App\BusinessLogic\Domain\Command\CreateAuthor;
-use App\BusinessLogic\Domain\Event\AuthorCreated;
+use App\BusinessLogic\Domain\Command\UpdateAuthor;
+use App\BusinessLogic\Domain\Event\AuthorUpdated;
 use Davamigo\Domain\Core\Command\Command;
 use Davamigo\Domain\Core\CommandHandler\CommandHandler;
 use Davamigo\Domain\Core\CommandHandler\CommandHandlerException;
 use Davamigo\Domain\Core\EventBus\EventBus;
 
 /**
- * Create author command handler
+ * Update author command handler
  *
  * @package App\BusinessLogic\Application\CommandHandler
  * @author davamigo@gmail.com
  */
-class CreateAuthorHandler implements CommandHandler
+class UpdateAuthorHandler implements CommandHandler
 {
     /** @var EventBus */
     protected $eventBus;
 
     /**
-     * CreateAuthorHandler constructor.
+     * UpdateAuthorHandler constructor.
      *
      * @param EventBus $eventBus
      */
@@ -39,11 +39,11 @@ class CreateAuthorHandler implements CommandHandler
      */
     public function handle(Command $command): void
     {
-        if (!$command instanceof CreateAuthor) {
-            throw new CommandHandlerException('The command class should be: ' . CreateAuthor::class);
+        if (!$command instanceof UpdateAuthor) {
+            throw new CommandHandlerException('The command class should be: ' . UpdateAuthor::class);
         }
 
-        $this->eventBus->publishEvent(new AuthorCreated($command->author()));
+        $this->eventBus->publishEvent(new AuthorUpdated($command->author()));
     }
 
     /**
@@ -53,6 +53,6 @@ class CreateAuthorHandler implements CommandHandler
      */
     public function handledCommands()
     {
-        return CreateAuthor::class;
+        return UpdateAuthor::class;
     }
 }

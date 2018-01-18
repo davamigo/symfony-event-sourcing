@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cbcaa77ea3d97e740018fcaa5a53935",
+    "content-hash": "9654c7990cbf10f2909736ef00871fde",
     "packages": [
         {
             "name": "davamigo/php-event-sourcing",
-            "version": "dev-feature/development",
+            "version": "0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davamigo/php-event-sourcing.git",
-                "reference": "be582f03cc694391d4076802cc109a3ca9eebf90"
+                "reference": "aa170a24ee8fccc9e682a7a712b074a875ac1040"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/be582f03cc694391d4076802cc109a3ca9eebf90",
-                "reference": "be582f03cc694391d4076802cc109a3ca9eebf90",
+                "url": "https://api.github.com/repos/davamigo/php-event-sourcing/zipball/aa170a24ee8fccc9e682a7a712b074a875ac1040",
+                "reference": "aa170a24ee8fccc9e682a7a712b074a875ac1040",
                 "shasum": ""
             },
             "require": {
@@ -69,7 +69,7 @@
                 "source": "https://github.com/davamigo/php-event-sourcing",
                 "issues": "https://github.com/davamigo/php-event-sourcing/issues"
             },
-            "time": "2018-01-16T22:37:51+00:00"
+            "time": "2018-01-18T22:49:16+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2320,16 +2320,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.61",
+            "version": "v1.0.63",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "f872f8faccf5ff95678e1e428f460a333ba1e5d0"
+                "reference": "c409fe47e94c3c3c255e94356718ff15417afb0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/f872f8faccf5ff95678e1e428f460a333ba1e5d0",
-                "reference": "f872f8faccf5ff95678e1e428f460a333ba1e5d0",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/c409fe47e94c3c3c255e94356718ff15417afb0e",
+                "reference": "c409fe47e94c3c3c255e94356718ff15417afb0e",
                 "shasum": ""
             },
             "require": {
@@ -2362,7 +2362,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-01-12T13:09:44+00:00"
+            "time": "2018-01-17T19:45:47+00:00"
         },
         {
             "name": "symfony/form",
@@ -4327,7 +4327,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "davamigo/php-event-sourcing": 20,
         "symfony/lts": 20
     },
     "prefer-stable": false,
