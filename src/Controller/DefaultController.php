@@ -52,8 +52,6 @@ class DefaultController extends Controller
 //        $tolkien->setDiedDate(new \DateTime('1973-09-02'));
 //
 //        $commandBus->addCommand(new UpdateAuthor(clone $tolkien));
-//
-//        $commandBus->dispatch();
 
 
 //        $projector = $this->get('event_sourcing.entity_projector');

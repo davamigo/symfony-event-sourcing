@@ -66,7 +66,6 @@ class PublisherController extends Controller
 
             $commandBus = $this->get('event_sourcing.command_bus');
             $commandBus->addCommand(new CreatePublisher($publisher->toDomainEntity()));
-            $commandBus->dispatch();
 
             return $this->redirectToRoute('publisher_index');
         }

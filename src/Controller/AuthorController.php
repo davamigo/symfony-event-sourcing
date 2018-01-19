@@ -80,7 +80,6 @@ class AuthorController extends Controller
 
             $commandBus = $this->get('event_sourcing.command_bus');
             $commandBus->addCommand(new CreateAuthor($author->toDomainEntity()));
-            $commandBus->dispatch();
 
             return $this->redirectToRoute('author_index');
         }
@@ -142,7 +141,6 @@ class AuthorController extends Controller
 
             $commandBus = $this->get('event_sourcing.command_bus');
             $commandBus->addCommand(new UpdateAuthor($author->toDomainEntity()));
-            $commandBus->dispatch();
 
             return $this->redirectToRoute('author_index');
         }
@@ -197,7 +195,6 @@ class AuthorController extends Controller
 
             $commandBus = $this->get('event_sourcing.command_bus');
             $commandBus->addCommand(new DeleteAuthor($author->toDomainEntity()));
-            $commandBus->dispatch();
 
             return $this->redirectToRoute('author_index');
         }

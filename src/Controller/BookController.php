@@ -87,7 +87,6 @@ class BookController extends Controller
 
             $commandBus = $this->get('event_sourcing.command_bus');
             $commandBus->addCommand(new CreateBook($book->toDomainEntity()));
-            $commandBus->dispatch();
 
             return $this->redirectToRoute('book_index');
         }
@@ -156,7 +155,6 @@ class BookController extends Controller
 
             $commandBus = $this->get('event_sourcing.command_bus');
             $commandBus->addCommand(new UpdateBook($book->toDomainEntity()));
-            $commandBus->dispatch();
 
             return $this->redirectToRoute('book_index');
         }
