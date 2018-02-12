@@ -72,6 +72,27 @@ services:
 
 
   #############################################################################
+  # See: https://hub.docker.com/r/spotify/kafka/
+  evsourcing_kafka:
+    image: spotify/kafka
+
+    restart: "always"
+
+    container_name: "docker_evsourcing_kafka"
+
+    environment:
+      ADVERTISED_PORT: 9092
+      ADVERTISED_HOST: evsourcing_kafka
+
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+
+    networks:
+      - "evsourcing_network"
+
+
+  #############################################################################
   # See: https://hub.docker.com/_/mongo/
   evsourcing_storage:
     image: mongo:3
