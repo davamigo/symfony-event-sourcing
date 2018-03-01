@@ -18,4 +18,4 @@ while [[ $# -ge 1 ]]; do
     shift
 done
 
-docker exec -it $service mysql -root -proot $args
+docker exec -it $service mysql -uroot -proot $args
